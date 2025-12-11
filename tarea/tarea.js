@@ -14,9 +14,19 @@ const file3Path = path.join(__dirname, 'inputs', 'input3.txt');
 // Pista: Cuidado con el "Callback Hell".
 
 function leerArchivosCallback() {
-    console.log('--- Iniciando Callbacks ---');
-    // Tu código aquí:
-    
+  fs.readFile(file1Path, "utf8", (err, data1) => {
+    if (err) return console.error(err);
+
+    fs.readFile(file2Path, "utf8", (err, data2) => {
+      if (err) return console.error(err);
+
+      fs.readFile(file3Path, "utf8", (err, data3) => {
+        if (err) return console.error(err);
+
+        console.log(data1 + data2 + data3);
+      });
+    });
+  });
 }
 
 // ==========================================
@@ -26,9 +36,11 @@ function leerArchivosCallback() {
 // pero usando fsPromises.readFile y .then() .catch()
 
 function leerArchivosPromesas() {
-    console.log('--- Iniciando Promesas ---');
-    // Tu código aquí:
-
+  fsPromises.readFile(file1Path, "utf8")
+    .then(data1 => fsPromises.readFile(file2Path, "utf8").then(data2 => data1 + data2))
+    .then(parcial => fsPromises.readFile(file3Path, "utf8").then(data3 => parcial + data3))
+    .then(resultado => console.log(resultado))
+    .catch(err => console.error(err));
 }
 
 // ==========================================
@@ -38,9 +50,15 @@ function leerArchivosPromesas() {
 // Recuerda manejar los errores con try/catch.
 
 async function leerArchivosAsync() {
-    console.log('--- Iniciando Async/Await ---');
-    // Tu código aquí:
+  try {
+    const data1 = await fsPromises.readFile(file1Path, "utf8");
+    const data2 = await fsPromises.readFile(file2Path, "utf8");
+    const data3 = await fsPromises.readFile(file3Path, "utf8");
 
+    console.log(data1 + data2 + data3);
+  } catch (err) {
+    console.error(err);
+  }
 }
 
 // ==========================================
@@ -49,14 +67,20 @@ async function leerArchivosAsync() {
 // Objetivo: Leer los 3 archivos "en paralelo" y mostrar el resultado concatenado
 // cuando todos hayan terminado.
 
-async function leerArchivosParalelo() {
-    console.log('--- Iniciando Promise.all ---');
-    // Tu código aquí:
-
+function leerArchivosParalelo() {
+  Promise.all([
+    fsPromises.readFile(file1Path, "utf8"),
+    fsPromises.readFile(file2Path, "utf8"),
+    fsPromises.readFile(file3Path, "utf8")
+  ])
+    .then(([data1, data2, data3]) => {
+      console.log(data1 + data2 + data3);
+    })
+    .catch(err => console.error(err));
 }
 
 // Descomenta la función que quieras probar:
-// leerArchivosCallback();
-// leerArchivosPromesas();
-// leerArchivosAsync();
-// leerArchivosParalelo();
+//leerArchivosCallback();
+//leerArchivosPromesas();
+//leerArchivosAsync();
+ leerArchivosParalelo();
