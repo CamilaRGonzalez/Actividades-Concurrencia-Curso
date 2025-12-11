@@ -60,7 +60,8 @@ Provide precise technical definitions for the following fundamental concepts:
 
 # Respuestas
 
-1. **Event Loop Architecture:** El Event Loop es el mecanismo que permite a Node.js ejecutar operaciones asíncronas en un entorno single-threaded sin bloquear la ejecución. Su funcionamiento se basa en la interacción entre tres componentes principales: el Call Stack, las Task Queues y el propio ciclo del Event Loop.
+## 1. **Event Loop Architecture:** 
+El Event Loop es el mecanismo que permite a Node.js ejecutar operaciones asíncronas en un entorno single-threaded sin bloquear la ejecución. Su funcionamiento se basa en la interacción entre tres componentes principales: el Call Stack, las Task Queues y el propio ciclo del Event Loop.
 
 - Call Stack (Pila de ejecución):
 Es donde el motor V8 ejecuta código JavaScript de forma estrictamente sincrónica. Mientras la pila está ocupada, ninguna otra tarea puede ejecutarse. Cuando una función inicia una operación asíncrona (como I/O, timers o callbacks), esta no se ejecuta en la pila; se delega a APIs del sistema operativo o al thread pool de libuv.
@@ -81,7 +82,8 @@ Cuando la pila queda libre, el Event Loop extrae el siguiente callback pendiente
 
 Gracias a este modelo, Node.js puede manejar operaciones concurrentes sin bloquear, ya que el Event Loop delega el trabajo pesado (principalmente I/O) al sistema operativo, mientras el hilo principal se mantiene disponible para seguir procesando tareas de manera eficiente.
 
-2.  **Flow Control Patterns:** El “Callback Hell” es un anti-patrón que aparece cuando se encadenan múltiples operaciones asíncronas utilizando callbacks anidados. Esta estructura genera código con forma de pirámide (“flecha hacia la derecha”), donde cada callback depende del resultado del anterior.
+## 2.  **Flow Control Patterns:** 
+El “Callback Hell” es un anti-patrón que aparece cuando se encadenan múltiples operaciones asíncronas utilizando callbacks anidados. Esta estructura genera código con forma de pirámide (“flecha hacia la derecha”), donde cada callback depende del resultado del anterior.
 Este patrón incrementa la complejidad ciclomática, dificulta el manejo de errores, reduce la legibilidad y hace que el flujo de control sea difícil de rastrear y mantener.
 
 El problema surge porque los callbacks mezclan control flow, error handling y lógica de negocio dentro de funciones anidadas, produciendo un aumento de rutas posibles de ejecución y una fuerte dependencia entre niveles.
@@ -107,7 +109,7 @@ Permite escribir código asíncrono con un flujo secuencial:
 - Facilita el mantenimiento, ya que el flujo de control es explícito y más fácil de razonar.
 
 
-3.  **Promise Lifecycle:** 
+## 3. **Promise Lifecycle:** 
 1. pending (pendiente)
 Es el estado inicial.
 La operación asíncrona está en ejecución y la promesa aún no tiene un valor final.
@@ -134,7 +136,7 @@ Si una Promise entra en estado rejected y no existe un .catch() o un try/catch p
 
 - Pérdida de control del flujo : El rechazo no manejado interrumpe la cadena de Promises, causando que ninguna operación posterior se ejecute.
 
-4.  **Syntax and Syntactic Sugar:** 
+## 4.  **Syntax and Syntactic Sugar:** 
 **async/await vs .then()**
 
 1. Estructura del código
@@ -194,8 +196,7 @@ Si usás await mal, podés convertir tareas paralelas en secuenciales y volver e
 
 
 
-5.  **I/O Model:**
-
+## 5.  **I/O Model:**
 **Diferencia técnica entre operaciones CPU-bound (bloqueantes) y operaciones I/O-bound (no bloqueantes) en Node.js**
 
 1. **Operaciones CPU-bound (bloqueantes)**
